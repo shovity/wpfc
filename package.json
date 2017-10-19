@@ -1,0 +1,11 @@
+{
+  "name": "wpfc",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": ""
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
