@@ -1,8 +1,230 @@
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
 }
 
 a {
   color: #00B7FF;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/*Pool*/
+
+#pool {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 250px;
+  height: 505px;
+}
+
+#pool .box {
+  background: #dedede;
+  border: #555 5px solid;
+  border-top: none;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+#pool #water {
+  position: absolute;
+  background: #2196F3;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: 70%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/*Pipe*/
+#pipe {
+  position: fixed;
+  height:20px;
+  width: 500px;
+  top: 70px;
+  right: 250px;
+}
+
+#pipe .box {
+  background: #2196F3;
+  border: #666 5px solid;
+  border-left: none;
+  border-right: none;
+}
+
+#valve {
+  position: absolute;
+  background: red;
+  width: 60px;
+  height: 60px;
+  top: -25px;
+  right: 100px;
+}
+
+#valve.off::after {
+  content: "";
+  background: #fff;
+  position: absolute;
+  height: 10px;
+  width: 100px;
+  left: 100%;
+  top: 25px;
+}
+
+#valve.off + #blobBox {
+  display: none;
+}
+
+#blobBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.blob {
+  position: absolute;
+  background: #2196F3;
+  width: 10px;
+  height: 10px;
+  right: 0;
+  border-radius: 50%;
+  animation: drop 2s linear 0s infinite;
+}
+
+/*Thermometer*/
+#ther {
+  position: fixed;
+  width: 300px;
+  height: 150px;
+  top: 50px;
+  left: 50px;
+}
+
+#ther .box {
+  padding: 20px;
+  background: #607D8B;
+  border-radius: 5px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.blob-d {
+  animation: drop 3s linear .0s infinite;
+}
+
+.blob-d1 {
+  animation: drop1 2.5s linear .25s infinite;
+}
+
+.blob-d2 {
+  animation: drop2 2s linear .57s infinite;
+}
+
+.blob-d3 {
+  animation: drop3 1s linear .87s infinite;
+}
+
+.blob-d4 {
+  animation: drop 1.7s linear .83s infinite;
+}
+
+.blob-d5 {
+  animation: drop1 2.2s linear 1.22s infinite;
+}
+
+.blob-d6 {
+  animation: drop2 3.2s linear 1.75s infinite;
+}
+
+#ther span {
+  color: #fff;
+  font-size: 24px;
+}
+
+/*Animation*/
+@keyframes drop {
+  0% {
+    top: 0;
+    right: 0;
+  }
+
+  10% {
+    top: 0;
+    right: -10px;
+  }
+
+  100% {
+    top: 200px;
+    right: -10px;
+  }
+}
+
+@keyframes drop1 {
+  0% {
+    top: 0;
+    right: 0;
+  }
+
+  10% {
+    top: 0;
+    right: -20px;
+  }
+
+  30% {
+    right: -10px;
+
+  }
+
+  100% {
+    top: 300px;
+    right: 0;
+  }
+}
+
+@keyframes drop2 {
+  0% {
+    top: 0;
+    right: 0;
+  }
+
+  10% {
+    top: 0;
+    right: -20px;
+  }
+
+  100% {
+    top: 400px;
+    right: -30px;
+  }
+}
+
+@keyframes drop3 {
+  0% {
+    top: 0;
+    right: 0;
+  }
+
+  10% {
+    top: 0;
+    right: -10px;
+  }
+
+  60% {
+    right: 0px;
+  }
+
+  100% {
+    top: 500px;
+    right: -20px;
+  }
 }
