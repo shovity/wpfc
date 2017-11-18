@@ -3,15 +3,22 @@ extends layout
 block content
   #ther
     .box
-      span 100 °C
+      img(src='/images/cloud.png')
+      span#xTher 30 
+      span °C
+      #slider
+        input#range(type='range', min='0', max='50' value='30')
   
   #pool
     .box
       #water
+        #wl 500 lít
         
   #pipe
     .box
-      #valve
+      //- valve accept class .o0 .o1 .o2 .o3 as 4 speed
+      #valve.o3
+        #spin
       #blobBox
         .blob.blob-d
         .blob.blob-d1
@@ -20,3 +27,29 @@ block content
         .blob.blob-d4
         .blob.blob-d5
         .blob.blob-d6
+  #dia
+    .box
+      #pp.pointer
+      #pt.pointer
+      #lp.label
+        strong μ
+        sub Mực Nước
+        span (
+        span#xP 500
+        span ) = 
+        span#yP (0, 1, 0)
+      #lt.label
+        strong μ
+        sub Nhiệt Độ
+        span (
+        span#xT 30
+        span ) = 
+        span#yT (0, 1, 0)
+      #lv.label
+        strong μ
+        sub Góc mở van
+        span (
+        span#xV 500
+        span ) = 
+        span#yV (0, 1, 0)
+        
