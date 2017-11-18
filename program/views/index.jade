@@ -11,13 +11,16 @@ block content
   
   #pool
     .box
+      .pline
       #water
         #wl 500 lít
         
   #pipe
     .box
+      .source
       //- valve accept class .o0 .o1 .o2 .o3 as 4 speed
       #valve.o3
+        #vl 100%
         #spin
       #blobBox
         .blob.blob-d
@@ -52,4 +55,8 @@ block content
         span#xV 500
         span ) = 
         span#yV (0, 1, 0)
+  #log
+    .box
+      .lline
+      #lcontent
         

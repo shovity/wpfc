@@ -105,6 +105,33 @@ document.addEventListener('DOMContentLoaded', () => {
     yT.innerHTML = `(${nLow}, ${nMed}, ${nHei})`
   }
 
+  // Log
+  const log = meg => {
+    const time = new Date().toLocaleTimeString()
+    lcontent.innerHTML += `<span>${time}:</span> ${meg} <br>`
+    lcontent.scrollTop = lcontent.scrollHeight
+  }
+
+  // Request fuzzy
+  const requestFuzzy = () => {
+    let body = {w: outputPool.x, t: outputTher.x}
+
+    fetch(
+      '/fuzzy',
+      {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(body)
+      }
+    ).then(res => res.json()).then(data => {
+      vl.innerHTML = Math.floor(data.valve) + '%'
+      log(Math.floor(data.valve) + '%' + ' la cai gi do ma server gui ve')
+    })
+  }
+
   // pool addEventListener
   {
     let isMouseDown = false
@@ -125,19 +152,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isMouseDown) return
       let newH = wH - 55 - event.clientY;
       setWater(newH * 2)
+      requestFuzzy()
     })
   }
 
 
   // Upwater
-  let uw = setInterval(() => {
-    setWater(outputPool.x + 1)
-  }, pSpeed)
+  // let uw = setInterval(() => {
+  //   setWater(outputPool.x + 1)
+  // }, pSpeed)
 
   // Slider addEventListener
   {
     range.addEventListener('input', () => {
       setTher(range.value)
+      requestFuzzy()
     })
   }
 

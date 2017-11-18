@@ -37,6 +37,15 @@ a {
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
 }
 
+.pline {
+  background:#555;
+  width: calc(100% + 85px);
+  height: 1px;
+  position: absolute;
+  bottom: -5px;
+  left: -30px;
+}
+
 #pool #water {
   position: absolute;
   background: #2196F3;
@@ -64,6 +73,7 @@ a {
   background: #FF9800;
   font-size: 12px;
   color: #efefef;
+  border-radius: 3px 0 3px 3px;
 }
 
 #wl::after {
@@ -96,6 +106,18 @@ a {
   border-right: none;
 }
 
+#pipe .source {
+  background: #2196F3;
+  width: 70px;
+  height: 75px;
+  position: absolute;
+  left: 20px;
+  bottom: 100%;
+  border: #666 5px solid;
+  border-top: none;
+  border-bottom: none;
+}
+
 #valve {
   position: absolute;
   background: #FF5722;
@@ -121,6 +143,39 @@ a {
   width: 100px;
   left: 100%;
   top: 25px;
+}
+
+#spin {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#vl {
+  position: relative;
+  top: calc(100% + 13px);
+  display: block;
+  text-align: center;
+  left: -40px;
+  padding: 5px;
+  background: #FF9800;
+  font-size: 12px;
+  color: #efefef;
+  border-radius: 3px 0 3px 3px;
+}
+
+#vl::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  border-top: 0;
+  border-top: 5px transparent solid;
+  border-left: 5px transparent solid;
+  border-bottom: 5px #FF9800 solid;
+  border-right: 5px #FF9800 solid;
 }
 
 #valve.o0 > #spin {
@@ -295,7 +350,7 @@ a {
 /*Dia*/
 #dia {
   position: fixed;
-  bottom: 50px;
+  top: 200px;
   left: 50px;
   height: 169px;
   width: 950px;
@@ -340,6 +395,42 @@ a {
 #lv {
   left: 670px;
 }
+
+/*Log*/
+#log {
+  position: fixed;
+  top: 410px;
+  left: 50px;
+  width: 950px;
+  height: 212px;
+}
+
+#log .box {
+  background: #102931;
+  padding: 10px;
+}
+
+#log #lcontent {
+  color: #dfdfdf;
+  height: 100%;
+  overflow-y: auto;
+  font-family: 'Titillium Web', sans-serif
+}
+
+#log span {
+  color: rgba(244, 67, 54, 0.74);
+  margin-right: 3px;
+}
+
+.lline {
+  background: #102931;
+  width: calc(100% + 60px);
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: -50px;
+}
+
 
 
 /*Animation*/
