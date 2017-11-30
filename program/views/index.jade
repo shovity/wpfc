@@ -1,8 +1,11 @@
 extends layout
 
 block content
+
+
   #ther
     .box
+      #particles
       img(src='/images/cloud.png')
       span#xTher 30 
       span °C
@@ -21,7 +24,15 @@ block content
       //- valve accept class .o0 .o1 .o2 .o3 as 4 speed
       #valve.o3
         #vl 100%
-        #spin
+        .lds-gear
+          div#gear
+            div
+            div
+            div
+            div
+            div
+            div
+            //- div
       #blobBox
         .blob.blob-d
         .blob.blob-d1
@@ -48,13 +59,13 @@ block content
         span#xT 30
         span ) = 
         span#yT (0, 1, 0)
-      #lv.label
-        strong μ
-        sub Góc mở van
-        span (
-        span#xV 500
-        span ) = 
-        span#yV (0, 1, 0)
+      //- #lv.label
+      //-   strong μ
+      //-   sub Góc mở van
+      //-   span (
+      //-   span#xV 500
+      //-   span ) = 
+      //-   span#yV (0, 1, 0)
   #log
     .box
       .lline

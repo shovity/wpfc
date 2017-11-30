@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const MAX_LOG_LINE = 1000
+
   const wH = document.documentElement.clientHeight
   const dev = location.search.indexOf('dev=1') !== -1
+
+  let logLine = 0
 
   // {x, nLow, nMed, nHei: 0}
   let outputPool = {x: 500, nLow: 0, nMed: 1, nHei: 0}
@@ -105,16 +109,46 @@ document.addEventListener('DOMContentLoaded', () => {
     yT.innerHTML = `(${nLow}, ${nMed}, ${nHei})`
   }
 
+  // set valve
+  const setValve = value => {
+    // set value label
+    vl.innerHTML = value + '%'
+
+    // set gear's speed
+    let speed = 9e9
+    if (value !== 0) {
+      speed = Math.floor((100 - value) / 10)
+    }
+    gear.style.animationDuration = speed + 's'
+
+    // set bloob
+    if (value > 89) {
+      valve.className = 'o3'
+    } else if (value > 59) {
+      valve.className = 'o2'
+    } else if (value > 0) {
+      valve.className = 'o1'
+    } else {
+      valve.className = 'o0'
+    }
+  }
+
   // Log
   const log = meg => {
+    // clear log when limit
+    if (++logLine > MAX_LOG_LINE) {
+      lcontent.innerHTML = ''
+      logLine = 0
+    }
     const time = new Date().toLocaleTimeString()
-    lcontent.innerHTML += `<span>${time}:</span> ${meg} <br>`
+    lcontent.innerHTML += `<span class='prompt'>${time}:</span> - ${meg} <br>`
     lcontent.scrollTop = lcontent.scrollHeight
   }
 
   // Request fuzzy
   const requestFuzzy = () => {
     let body = {w: outputPool.x, t: outputTher.x}
+    log(`requesting data <span class='primary'>[${outputPool.x} ${outputTher.x}]</span>`)
 
     fetch(
       '/fuzzy',
@@ -127,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify(body)
       }
     ).then(res => res.json()).then(data => {
-      vl.innerHTML = Math.floor(data.valve) + '%'
-      log(Math.floor(data.valve) + '%' + ' la cai gi do ma server gui ve')
+      log(`responsed data = <span class='success'>${JSON.stringify(data)}</span>`)
+      setValve(Math.floor(data.valve))
     })
   }
 
@@ -170,4 +204,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
+
+  /**
+   * Particles
+   */
+  particlesJS.load('particles', '/particles-config', () => {
+    console.log('callback - particles.js config loaded')
+  })
+  
+
+  //-- End of DOMContentLoaded
 })
