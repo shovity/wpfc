@@ -2,7 +2,6 @@ extends layout
 
 block content
 
-
   #ther
     .box
       #particles
@@ -11,36 +10,6 @@ block content
       span °C
       #slider
         input#range(type='range', min='0', max='50' value='30')
-  
-  #pool
-    .box
-      .pline
-      #water
-        #wl 500 lít
-        
-  #pipe
-    .box
-      .source
-      //- valve accept class .o0 .o1 .o2 .o3 as 4 speed
-      #valve.o3
-        #vl 100%
-        .lds-gear
-          div#gear
-            div
-            div
-            div
-            div
-            div
-            div
-            //- div
-      #blobBox
-        .blob.blob-d
-        .blob.blob-d1
-        .blob.blob-d2
-        .blob.blob-d3
-        .blob.blob-d4
-        .blob.blob-d5
-        .blob.blob-d6
   #dia
     .box
       #pp.pointer
@@ -70,4 +39,37 @@ block content
     .box
       .lline
       #lcontent
+
+  #pool
+    .box
+      .pline
+      #water
+        #gamePointLabel 12
+        #wl 500 lít
+      #pipe
+        .box
+          .source
+          //- valve accept class .o0 .o1 .o2 .o3 as 4 speed
+          #valve.o3
+            #vl 100%
+            .lds-gear
+              div#gear
+                div
+                div
+                div
+                div
+                div
+                div
+          #blobBox
+            .blob.blob-d
+            .blob.blob-d1
+            .blob.blob-d2
+            .blob.blob-d3
+            .blob.blob-d4
+            .blob.blob-d5
+            .blob.blob-d6
+      #gameBox
+        #foodBox
+        #fish 🐠
+
         

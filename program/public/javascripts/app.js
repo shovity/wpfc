@@ -1,11 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const MAX_LOG_LINE = 1000
+  const MAX_LOG_LINE  = 1000   // line
+  const REQUEST_DELAY = 100   // ms
 
-  const wH = document.documentElement.clientHeight
+  const foods = [
+    '🧀','🥚','🥐','🥖','🥞','🍠','🍔','🍕','🍝','🍟','🍤','🌭','🌮','🌯','🍛','🥙','🥘','🥗','🥓','🍖',
+    '🍗','🍚','🍜','🍘','🍙','🍣','🍥','🍱','🍲','🍇','🍈','🍉','🍊','🍋','🍌','🍍','🍎','🍏','🍐','🍑',
+    '🍒','🍓','🥝','🍄','🍅','🍆','🍹','🥑','🥔','🥕','🥒','🥜','🍰','🎂','🍨','🍦','🍩','🍪','🍿','🍮',
+  ]
+
+  const wH  = document.documentElement.clientHeight
   const dev = location.search.indexOf('dev=1') !== -1
 
-  let logLine = 0
+  let logLine      = 0
+  let requestReady = true
+  let gamePoint = 0
+  let isPause = false
 
   // {x, nLow, nMed, nHei: 0}
   let outputPool = {x: 500, nLow: 0, nMed: 1, nHei: 0}
@@ -147,6 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Request fuzzy
   const requestFuzzy = () => {
+    if (!requestReady) return
+    requestReady = false
+    setTimeout(() => {
+      requestReady = true
+    }, REQUEST_DELAY)
     let body = {w: outputPool.x, t: outputTher.x}
     log(`requesting data <span class='primary'>[${outputPool.x} ${outputTher.x}]</span>`)
 
@@ -168,12 +183,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // pool addEventListener
   {
+    const poolRect = pool.getBoundingClientRect()
+
     let isMouseDown = false
+
+    const handleMouseMove = event => {
+      // event.preventDefault()
+      if (!isMouseDown) return
+      let newH = wH - 55 - event.clientY;
+      setWater(newH * 2)
+      requestFuzzy()
+
+      // Hidden game box
+      if (newH < 50) {
+        isPause = true
+        gameBox.style.display = 'none'
+      } else {
+        isPause = false
+        gameBox.style.display = 'block'
+      }
+
+      fs.forEach((f, fi) => {
+        if (f.y < event.clientY - poolRect.top) {
+          fs.splice(fi, 1)
+          foodBox.innerHTML = ''
+          fs.forEach(f => {
+            drawFood(f.food, f.x, f.y)
+          })
+        }
+      })
+    }
+
     pool.addEventListener('mousedown', event => {
       event.preventDefault()
       isMouseDown = true
-      let newH = wH - 55 - event.clientY;
-      setWater(newH * 2)
+      handleMouseMove(event)
     })
 
     window.addEventListener('mouseup', () => {
@@ -181,13 +225,111 @@ document.addEventListener('DOMContentLoaded', () => {
       isMouseDown = false
     })
 
-    window.addEventListener('mousemove', event => {
-      // event.preventDefault()
-      if (!isMouseDown) return
-      let newH = wH - 55 - event.clientY;
-      setWater(newH * 2)
-      requestFuzzy()
+    window.addEventListener('mousemove', handleMouseMove)
+
+    // if you love a fish <--------- 🐠 🐠 🐠 🐠 🐠 🐠
+    const delayStepAuto        = 3000 // ms
+    const delayRedirectionAuto = 1000 // ms
+    const delayRedirection     = 100  // ms
+    const delayGenerateFood    = 2000 // ms
+    const maxFood              = 5
+
+    const fs                = []
+
+    let auto  = true
+    let ready = true
+    let oX    = 0
+
+    const drawFood = (food, x, y) => {
+      foodBox.innerHTML += `<span class='food' style='left:${x}px; top:${y}px;'>${food}</span>`
+    }
+
+
+    const autoMove = () => {
+      if (!auto || isPause) return
+      // x = [0:205]
+      const x = Math.floor(Math.random() * 206)
+      // y = [505 - outputPool.x/2 : 470]
+      const y = Math.floor(Math.random() * (470 - (505 - outputPool.x/2)) + (505 - outputPool.x/2))
+      fish.style.transition = `all ${delayStepAuto/1000}s ease-in-out, transform ${delayRedirectionAuto/1000}s ease-in-out`
+      fish.style.left = x + 'px'
+      fish.style.top = y + 'px'
+
+      // fix direction
+      if (oX - x > 2) {
+        fish.className = ''
+      } else if (x - oX > 2) {
+        fish.className = 'right'
+      }
+      oX = x;
+    }
+
+    setInterval(autoMove, delayStepAuto)
+
+    water.addEventListener('mouseleave', () => {
+      auto = true
+      autoMove()
     })
+
+    water.addEventListener('mouseover', () => {
+      auto = false
+      fish.style.transition = `all 0s ease-in-out, transform ${delayRedirection / 1000}s ease-in-out`
+    })
+
+    pool.addEventListener('mousemove', event => {
+      if (auto) return
+
+      const [x, y] = [event.clientX - poolRect.left - 25, event.clientY - poolRect.top - 12]
+
+      // fix direction
+      if (oX - x > 2) {
+        fish.className = ''
+      } else if (x - oX > 2) {
+        fish.className = 'right'
+      }
+      oX = x;
+
+      fish.style.left = x + 'px'
+      fish.style.top = y + 'px'
+
+      // handle eating
+      fs.forEach((f, fi) => {
+        if (Math.abs(f.x - x) < 10 && Math.abs(f.y - y) < 10) {
+          gamePoint++
+          gamePointLabel.innerHTML = gamePoint
+          fs.splice(fi, 1)
+          foodBox.innerHTML = ''
+          fs.forEach(f => {
+            drawFood(f.food, f.x, f.y)
+          })
+          
+        }
+      })
+    })
+
+    // foods
+    setInterval(() => {
+      if (fs.length >= maxFood || isPause) return
+      // randomx, x = [0:200]
+      const x = Math.floor(Math.random() * 200)
+      // random y, y = [505 - outputPool.x/2 : 470]
+      const y = Math.floor(Math.random() * (470 - (505 - outputPool.x/2)) + (505 - outputPool.x/2))
+      // random food
+      const food = foods[Math.floor(Math.random() * foods.length)]
+      fs.push({
+        food,
+        x,
+        y
+      })
+
+      drawFood(food, x, y)
+      if (dev) log('add new food ' + food)
+    }, delayGenerateFood)
+    
+
+    autoMove()
+
+    //-- end of pool event
   }
 
 
@@ -198,9 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Slider addEventListener
   {
-    range.addEventListener('input', () => {
+    range.addEventListener('click', () => {
       setTher(range.value)
+    })
+
+    range.addEventListener('input', () => {
       requestFuzzy()
+      setTher(range.value)
     })
   }
 
