@@ -439,7 +439,8 @@ body {
 
 #dia .box {
   background-image: url(/images/dia.jpg);
-  background-size: 100% auto;background-repeat: no-repeat;
+  background-size: auto;
+  background-repeat: no-repeat;
 }
 
 .pointer {
