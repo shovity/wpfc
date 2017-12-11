@@ -382,7 +382,7 @@ body {
 }
 
 #sun.spin {
-  animation: suns 3s infinite ease-in-out;
+  animation: suns 3s infinite linear;
 }
 
 #tL {

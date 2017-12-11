@@ -133,8 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fix ther box
     xTher.innerHTML = x
     // Fix dia
-    // [0 50] => [351 538]
-    let yPosition = (538 - 351) / 50 * x + 351
+    // [0 50] => [407 594]
+    let yPosition = (594 - 407) / 50 * x + 407
     pt.style.left = yPosition + 'px'
     xT.innerHTML = x
 
